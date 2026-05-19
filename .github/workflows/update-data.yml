@@ -1,0 +1,73 @@
+name: Update BTC Price Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Run data pull
+        run: dotnet run --configuration Release
+
+      - name: Generate README from template
+        run: |
+          STATS="data/stats.json"
+          if [ ! -f "$STATS" ]; then
+            echo "No stats.json found, skipping README update."
+            exit 0
+          fi
+
+          STATUS=$(jq -r '.status' "$STATS")
+          if [ "$STATUS" = "success" ]; then
+            BADGE="![Status](https://img.shields.io/badge/last%20run-success-brightgreen)"
+          else
+            BADGE="![Status](https://img.shields.io/badge/last%20run-failed-red)"
+          fi
+
+          sed \
+            -e "s|{{STATUS_BADGE}}|${BADGE}|g" \
+            -e "s|{{LAST_RUN}}|$(jq -r '.last_run_utc' "$STATS")|g" \
+            -e "s|{{STATUS}}|$(jq -r '.status' "$STATS")|g" \
+            -e "s|{{NEW_CANDLES}}|$(jq -r '.new_candles' "$STATS" | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')|g" \
+            -e "s|{{TOTAL_CANDLES}}|$(jq -r '.total_candles' "$STATS" | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')|g" \
+            -e "s|{{RANGE_START}}|$(jq -r '.range_start' "$STATS")|g" \
+            -e "s|{{RANGE_END}}|$(jq -r '.range_end' "$STATS")|g" \
+            -e "s|{{FIRST_TIME}}|$(jq -r '.first_candle.OpenTime' "$STATS")|g" \
+            -e "s|{{FIRST_OPEN}}|$(jq -r '.first_candle.Open' "$STATS")|g" \
+            -e "s|{{FIRST_HIGH}}|$(jq -r '.first_candle.High' "$STATS")|g" \
+            -e "s|{{FIRST_LOW}}|$(jq -r '.first_candle.Low' "$STATS")|g" \
+            -e "s|{{FIRST_CLOSE}}|$(jq -r '.first_candle.Close' "$STATS")|g" \
+            -e "s|{{LAST_TIME}}|$(jq -r '.last_candle.OpenTime' "$STATS")|g" \
+            -e "s|{{LAST_OPEN}}|$(jq -r '.last_candle.Open' "$STATS")|g" \
+            -e "s|{{LAST_HIGH}}|$(jq -r '.last_candle.High' "$STATS")|g" \
+            -e "s|{{LAST_LOW}}|$(jq -r '.last_candle.Low' "$STATS")|g" \
+            -e "s|{{LAST_CLOSE}}|$(jq -r '.last_candle.Close' "$STATS")|g" \
+            README.template.md > README.md
+
+          echo "README.md generated from template."
+
+      - name: Commit and push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/BTCUSD_1m_*.csv data/last_timestamp.txt data/stats.json README.md
+          git diff --cached --quiet || git commit -m "chore: update BTC data + README $(date -u +'%Y-%m-%d')"
+          git push
