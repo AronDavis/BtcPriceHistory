@@ -25,13 +25,7 @@ Automated 1-minute OHLCV data for **BTCUSD** pulled from Binance.US, updated nig
 
 | File | Description |
 |------|-------------|
-| `data/BTCUSD_1m_2019.csv` | 1-minute OHLCV — 2019 |
-| `data/BTCUSD_1m_2020.csv` | 1-minute OHLCV — 2020 |
-| `data/BTCUSD_1m_2021.csv` | 1-minute OHLCV — 2021 |
-| `data/BTCUSD_1m_2022.csv` | 1-minute OHLCV — 2022 |
-| `data/BTCUSD_1m_2023.csv` | 1-minute OHLCV — 2023 |
-| `data/BTCUSD_1m_2024.csv` | 1-minute OHLCV — 2024 |
-| `data/BTCUSD_1m_2025.csv` | 1-minute OHLCV — 2025 (appended nightly) |
+| `data/BTCUSD_1m_YEAR.csv` | 1-minute OHLCV data for the year in the file name|
 | `data/last_timestamp.txt` | Checkpoint — last pulled Unix ms |
 | `data/stats.json` | Raw stats from the last run |
 

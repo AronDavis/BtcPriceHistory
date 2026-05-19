@@ -50,16 +50,6 @@ jobs:
             -e "s|{{TOTAL_CANDLES}}|$(jq -r '.total_candles' "$STATS" | sed ':a;s/\B[0-9]\{3\}\>/,&/;ta')|g" \
             -e "s|{{RANGE_START}}|$(jq -r '.range_start' "$STATS")|g" \
             -e "s|{{RANGE_END}}|$(jq -r '.range_end' "$STATS")|g" \
-            -e "s|{{FIRST_TIME}}|$(jq -r '.first_candle.OpenTime' "$STATS")|g" \
-            -e "s|{{FIRST_OPEN}}|$(jq -r '.first_candle.Open' "$STATS")|g" \
-            -e "s|{{FIRST_HIGH}}|$(jq -r '.first_candle.High' "$STATS")|g" \
-            -e "s|{{FIRST_LOW}}|$(jq -r '.first_candle.Low' "$STATS")|g" \
-            -e "s|{{FIRST_CLOSE}}|$(jq -r '.first_candle.Close' "$STATS")|g" \
-            -e "s|{{LAST_TIME}}|$(jq -r '.last_candle.OpenTime' "$STATS")|g" \
-            -e "s|{{LAST_OPEN}}|$(jq -r '.last_candle.Open' "$STATS")|g" \
-            -e "s|{{LAST_HIGH}}|$(jq -r '.last_candle.High' "$STATS")|g" \
-            -e "s|{{LAST_LOW}}|$(jq -r '.last_candle.Low' "$STATS")|g" \
-            -e "s|{{LAST_CLOSE}}|$(jq -r '.last_candle.Close' "$STATS")|g" \
             README.template.md > README.md
 
           echo "README.md generated from template."
