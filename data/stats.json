@@ -1,10 +1,10 @@
 {
-  "last_run_utc": "2026-08-31 03:59:04",
+  "last_run_utc": "2026-09-01 03:49:50",
   "status": "success",
-  "new_candles": 0,
-  "total_candles": 2808438,
+  "new_candles": 2330,
+  "total_candles": 2810768,
   "range_start": "2026-08-30 03:57:00",
-  "range_end": "2026-08-31 03:59:04",
+  "range_end": "2026-09-01 03:49:50",
   "first_candle": {
     "OpenTime": "2026-01-01 00:00:00",
     "Open": "87240.56000000",
@@ -12,5 +12,11 @@
     "Low": "87240.56000000",
     "Close": "87240.56000000"
   },
-  "last_candle": null
+  "last_candle": {
+    "OpenTime": "2026-09-01 03:49:00",
+    "Open": "78657.62000000",
+    "High": "78657.62000000",
+    "Low": "78657.62000000",
+    "Close": "78657.62000000"
+  }
 }
