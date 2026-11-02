@@ -8,11 +8,11 @@ Automated 1-minute OHLCV data for **BTCUSD** pulled from Binance.US, updated nig
 
 | Field             | Value                              |
 |-------------------|------------------------------------|
-| Time              | 2026-11-01 04:40:23 UTC                   |
+| Time              | 2026-11-02 04:42:30 UTC                   |
 | Status            | success                         |
-| New candles       | 1,459                    |
-| Total candles     | 2,898,659                  |
-| Pull range        | 2026-10-31 04:22:00 → 2026-11-01 04:40:23    |
+| New candles       | 1,442                    |
+| Total candles     | 2,900,101                  |
+| Pull range        | 2026-11-01 04:41:00 → 2026-11-02 04:42:30    |
 
 ## Data Files
 
